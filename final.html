@@ -1,80 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Your Valentine Certificate</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Darshan Accepted!</title>
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #ffe6f0, #fff5f8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  .card {
-    background: white;
-    padding: 40px 30px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(255, 105, 135, 0.2);
-    max-width: 500px;
-    width: 100%;
-  }
-  h2 {
-    color: #d6336c;
-    margin-bottom: 25px;
-  }
-  #view-cert-btn, #download-btn {
-    padding: 14px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    margin-top: 20px;
-    display: block;
-    width: 100%;
-  }
-  #view-cert-btn {
-    background-color: #ff2d55;
-    color: white;
-  }
-  #view-cert-btn:hover {
-    background-color: #e0315b;
-  }
-  #download-btn {
-    background-color: #ff4d6d;
-    color: white;
-    display: none;
-  }
-  #download-btn:hover {
-    background-color: #e0315b;
-  }
-  #certificate-container {
-    margin-top: 25px;
-    display: none;
-  }
-  #certificate-container img {
-    max-width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  }
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  background: linear-gradient(135deg,#ffe6f0,#fff5f8);
+  flex-direction:column;
+}
+.card {
+  background:white;
+  padding:30px 20px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(255,105,135,0.2);
+  max-width:500px;
+  width:100%;
+  position: relative;
+}
+
+/* Breaking news banner */
+.breaking-news {
+  background:red;
+  color:white;
+  font-weight:bold;
+  padding:10px;
+  font-size:18px;
+  margin-bottom:15px;
+  border-radius:10px;
+  overflow:hidden;
+  white-space:nowrap;
+  box-sizing: border-box;
+  animation: marquee 8s linear infinite;
+}
+
+/* Scroll text effect */
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+h2 {
+  color:#d6336c;
+  margin-bottom:15px;
+}
+
+#view-cert-btn {
+  background:#ff2d55;
+  color:white;
+  padding:14px 30px;
+  border:none;
+  border-radius:25px;
+  font-size:18px;
+  cursor:pointer;
+  width:100%;
+  margin-top:10px;
+}
+#view-cert-btn:hover { background:#e0315b; }
+
+#certificate-container {
+  margin-top:20px;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+}
+#certificate-container img {
+  width:100%;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+#download-btn {
+  background:#ff4d6d;
+  color:white;
+  padding:14px 30px;
+  border:none;
+  border-radius:25px;
+  font-size:18px;
+  cursor:pointer;
+  margin-top:15px;
+  width:100%;
+  display:none;
+}
+#download-btn:hover { background:#e0315b; }
 </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Yayyy Darshan said YES!!! 💖🥰</h2>
-    <button id="view-cert-btn">Click Here to View Your Certificate 📜</button>
+<div class="card">
 
-    <div id="certificate-container">
-      <img id="certificate-img" src="couple.jpeg" alt="Valentine Certificate">
-      <button id="download-btn">Download Certificate 💌</button>
-    </div>
+  <!-- Breaking news banner text -->
+  <div class="breaking-news">BREAKING NEWS: Darshan Accepted! 💖🥰</div>
+
+  <h2>Yayyy Darshan said YES!!! 💖🥰</h2>
+
+  <button id="view-cert-btn">Click Here to View Your Certificate 📜</button>
+
+  <div id="certificate-container">
+    <img id="certificate-img" src="couple.jpeg" alt="Valentine Certificate">
+    <button id="download-btn">Download Certificate 💌</button>
   </div>
+</div>
 
 <script>
 const viewBtn = document.getElementById("view-cert-btn");
@@ -82,19 +113,17 @@ const certContainer = document.getElementById("certificate-container");
 const downloadBtn = document.getElementById("download-btn");
 const certImg = document.getElementById("certificate-img");
 
-viewBtn.addEventListener("click", () => {
-  certContainer.style.display = "block";
+viewBtn.addEventListener("click", ()=>{
+  certContainer.style.display = "flex";
   downloadBtn.style.display = "block";
-  // Optionally scroll into view
-  certContainer.scrollIntoView({ behavior: "smooth" });
+  certContainer.scrollIntoView({ behavior:"smooth" });
 });
 
-downloadBtn.addEventListener("click", () => {
-  // Create temporary link to download image
+downloadBtn.addEventListener("click", ()=>{
   const link = document.createElement("a");
   link.href = certImg.src;
   const today = new Date();
-  const dateStr = today.toISOString().split('T')[0]; // YYYY-MM-DD
+  const dateStr = today.toISOString().split('T')[0];
   link.download = `Your_Forever_Valentine_${dateStr}.jpeg`;
   document.body.appendChild(link);
   link.click();
