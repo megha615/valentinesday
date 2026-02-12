@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Your Lifetime Valentine Certificate</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #ffe6f0;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  .certificate {
+    background: white;
+    border: 3px dashed #ff4d6d;
+    border-radius: 15px;
+    padding: 30px 30px 50px;
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+  }
+  h1 {
+    color: #d6336c;
+    margin-bottom: 5px;
+  }
+  .date {
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  img {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 15px;
+    border: 3px solid #ff4d6d;
+  }
+  button {
+    margin-top: 25px;
+    background-color: #ff2d55;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 0;
+    width: 100%;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #d6284f;
+  }
+  @media (max-width: 480px) {
+    .certificate {
+      padding: 20px;
+    }
+    h1 {
+      font-size: 22px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="certificate">
+    <h1>🎉 You are my lifetime Valentine 🎉</h1>
+    <div class="date" id="date"></div>
+    <img src="couple.jpeg" alt="Couple" />
+    <button id="downloadBtn">Download Certificate 💌</button>
+  </div>
+
+<script>
+  // Set current date
+  const dateEl = document.getElementById("date");
+  const today = new Date();
+  const formattedDate = (today.getMonth()+1) + "/" + today.getDate() + "/" + today.getFullYear();
+  dateEl.textContent = "Date: " + formattedDate;
+
+  // Download image logic
+  document.getElementById("downloadBtn").addEventListener("click", () => {
+    // Create link to download the couple image
+    const link = document.createElement("a");
+    link.href = "couple.jpeg";  // Image in same folder
+    link.download = "Lifetime_Valentine_Certificate.jpeg";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+</script>
+</body>
+</html>
