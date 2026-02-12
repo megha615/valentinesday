@@ -7,113 +7,82 @@
 <style>
   body {
     margin: 0;
-    padding: 20px 10px;
-    font-family: Arial, sans-serif;
+    height: 100vh;
     background: linear-gradient(135deg, #ffe6f0, #fff5f8);
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
+    align-items: center;
+    overflow: hidden;
   }
   .card {
     background: white;
-    padding: 30px 40px;
+    padding: 40px 60px;
     border-radius: 20px;
-    max-width: 600px;
-    width: 100%;
     box-shadow: 0 15px 40px rgba(255, 105, 135, 0.2);
+    width: 400px;
+    text-align: center;
+    position: relative;
   }
   h2 {
     color: #d6336c;
-    text-align: center;
     margin-bottom: 30px;
   }
-  .question {
+  #question-text {
+    font-size: 20px;
+    margin-bottom: 40px;
+  }
+  button {
+    padding: 12px 30px;
     font-size: 18px;
-    margin: 15px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .question-text {
-    flex: 1;
-  }
-  .btn-yes, .btn-no {
-    cursor: pointer;
     border: none;
-    border-radius: 20px;
-    padding: 8px 18px;
-    font-size: 16px;
-    margin-left: 10px;
+    border-radius: 25px;
+    cursor: pointer;
     user-select: none;
   }
-  .btn-yes {
+  #yes-btn {
     background-color: #ff4d6d;
     color: white;
-    transition: background-color 0.3s ease;
+    margin-right: 20px;
   }
-  .btn-yes:hover {
+  #yes-btn:hover {
     background-color: #e0315b;
   }
-  .btn-no {
+  #no-btn {
     background-color: #adb5bd;
     color: white;
-    transition: background-color 0.3s ease;
-    position: relative;
-  }
-  .btn-no:hover {
-    background-color: #868e96;
+    position: absolute;
+    top: 170px;
+    left: 220px;
   }
   #funny-msg {
     color: #d6336c;
     font-weight: bold;
-    margin-top: 15px;
-    height: 22px;
-    text-align: center;
-    min-height: 22px;
+    margin-top: 20px;
+    min-height: 24px;
+    font-size: 16px;
   }
   #ok-btn {
-    background-color: #ff2d55;
+    background-color: #ff4d6d;
     color: white;
+    margin-top: 40px;
+    padding: 14px 40px;
+    font-size: 18px;
     border: none;
     border-radius: 25px;
-    padding: 15px 0;
-    font-size: 20px;
-    width: 100%;
-    margin-top: 30px;
-    cursor: not-allowed;
-    opacity: 0.5;
-    user-select: none;
-    transition: opacity 0.3s ease;
-  }
-  #ok-btn.enabled {
     cursor: pointer;
-    opacity: 1;
-  }
-
-  /* Responsive */
-  @media (max-width: 480px) {
-    .card {
-      padding: 20px 20px;
-    }
-    .question {
-      flex-wrap: wrap;
-    }
-    .btn-yes, .btn-no {
-      margin-left: 0;
-      margin-top: 6px;
-      width: 100px;
-    }
+    display: none;
   }
 </style>
 </head>
 <body>
   <div class="card">
-    <h2>Hey Boo 💖, answer honestly</h2>
-
-    <div id="questions-container"></div>
+    <h2>Hey Boo 💖<br>Answer honestly</h2>
+    <div id="question-text">Loading question...</div>
+    <button id="yes-btn">Yes 💘</button>
+    <button id="no-btn">No 😅</button>
     <div id="funny-msg"></div>
-    <button id="ok-btn" disabled>Ok, I Accept You 💘</button>
+    <button id="ok-btn">Ok, I Accept You 💘</button>
   </div>
 
 <script>
@@ -135,80 +104,70 @@
     "Of course! It's YES 😜"
   ];
 
-  const container = document.getElementById("questions-container");
-  const funnyMsgDiv = document.getElementById("funny-msg");
+  const questionText = document.getElementById("question-text");
+  const yesBtn = document.getElementById("yes-btn");
+  const noBtn = document.getElementById("no-btn");
+  const funnyMsg = document.getElementById("funny-msg");
   const okBtn = document.getElementById("ok-btn");
 
-  // Track answers: true if answered yes
-  const answers = new Array(questions.length).fill(false);
+  let currentQuestionIndex = 0;
 
-  // Render questions dynamically
-  questions.forEach((q, i) => {
-    const div = document.createElement("div");
-    div.className = "question";
-    div.dataset.index = i;
-    div.dataset.answered = "false";
+  function showQuestion(index) {
+    questionText.textContent = questions[index];
+    funnyMsg.textContent = "";
+    noBtn.style.display = "inline-block";
+    noBtn.style.opacity = "1";
 
-    div.innerHTML = `
-      <div class="question-text">${q}</div>
-      <button class="btn-yes">Yes</button>
-      <button class="btn-no">No</button>
-    `;
-    container.appendChild(div);
-  });
-
-  function checkAllAnsweredYes() {
-    return answers.every(ans => ans === true);
+    // Reset noBtn position
+    noBtn.style.top = "170px";
+    noBtn.style.left = "220px";
   }
 
-  container.addEventListener("click", e => {
-    if(e.target.classList.contains("btn-yes")) {
-      const parent = e.target.closest(".question");
-      const index = parseInt(parent.dataset.index);
+  yesBtn.addEventListener("click", () => {
+    currentQuestionIndex++;
+    funnyMsg.textContent = "";
 
-      if(parent.dataset.answered === "false") {
-        parent.dataset.answered = "true";
-        answers[index] = true;
-
-        // Disable buttons for this question
-        parent.querySelectorAll("button").forEach(btn => btn.disabled = true);
-
-        // Clear funny message
-        funnyMsgDiv.textContent = "";
-
-        // Check if all answered yes
-        if(checkAllAnsweredYes()) {
-          okBtn.disabled = false;
-          okBtn.classList.add("enabled");
-        }
-      }
+    if (currentQuestionIndex >= questions.length) {
+      // Show acceptance button
+      questionText.style.display = "none";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+      funnyMsg.style.display = "none";
+      okBtn.style.display = "inline-block";
+    } else {
+      showQuestion(currentQuestionIndex);
     }
+  });
 
-    if(e.target.classList.contains("btn-no")) {
-      // Show funny message and hide the no button
-      const btnNo = e.target;
-      const parent = btnNo.closest(".question");
-      const index = parseInt(parent.dataset.index);
+  noBtn.addEventListener("mouseenter", () => {
+    // Move the No button randomly within the card
+    const card = document.querySelector(".card");
+    const maxX = card.clientWidth - noBtn.offsetWidth;
+    const maxY = card.clientHeight - noBtn.offsetHeight;
 
-      // Choose a random funny message for this index to keep in sync
-      const msg = funnyNoMessages[index] || "No is not allowed 😜";
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
 
-      funnyMsgDiv.textContent = msg;
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+  });
 
-      // Hide No button smoothly
-      btnNo.style.transition = "opacity 0.5s ease";
-      btnNo.style.opacity = "0";
-      setTimeout(() => {
-        btnNo.style.display = "none";
-      }, 500);
-    }
+  noBtn.addEventListener("click", () => {
+    funnyMsg.textContent = funnyNoMessages[currentQuestionIndex];
+    // Fade out and hide No button on click
+    noBtn.style.transition = "opacity 0.5s ease";
+    noBtn.style.opacity = "0";
+    setTimeout(() => {
+      noBtn.style.display = "none";
+    }, 500);
   });
 
   okBtn.addEventListener("click", () => {
-    if(!okBtn.disabled) {
-      window.location.href = "acceptance.html";
-    }
+    window.location.href = "final.html";  // Change to your final page url
   });
+
+  // Initialize first question
+  showQuestion(currentQuestionIndex);
 </script>
 </body>
 </html>
