@@ -89,8 +89,125 @@ button {
     <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" width="250">
   </div>
 </div>
-
 <script>
+const introCard = document.getElementById("intro-card");
+const quizCard = document.getElementById("quiz-card");
+const startBtn = document.getElementById("start-btn");
+const questionEl = document.getElementById("question");
+const yesBtn = document.getElementById("yes-btn");
+const noBtn = document.getElementById("no-btn");
+const funMessage = document.getElementById("fun-message");
+const successMessage = document.getElementById("success-message");
+const gifContainer = document.getElementById("gif-container");
+const viewCertBtn = document.getElementById("view-cert-btn");
+const card = document.getElementById("quiz-card");
+
+const questions = [
+  "🍟 Will you share not only your fries but along with fried chicken?",
+  "🌟 Will you hype me up like I'm the main character?",
+  "📱 Will you reply fast instead of 'seen 2 hours ago'?",
+  "😜 Are you ready for random mood swings and still stay?",
+  "😂 Will you laugh at my silly jokes forever?",
+  "😝 Will you react to all the reels sent by me?"
+];
+
+let currentQ = 0;
+let noAttempts = 0;
+
+const funnyNoMessages = [
+  "Oops! NO is illegal here 😏",
+  "Wrong answer detected 😜",
+  "System error! Try YES 💘",
+  "Are you serious right now? 😂",
+  "Nice try mister 😌",
+  "That button doesn’t work 😝"
+];
+
+// Start Quiz
+startBtn.onclick = () => {
+  introCard.style.display = "none";
+  quizCard.style.display = "block";
+  loadQuestion();
+};
+
+function loadQuestion() {
+  questionEl.textContent = questions[currentQ];
+  funMessage.textContent = "";
+  noAttempts = 0;
+  noBtn.style.display = "inline-block";
+  noBtn.style.position = "relative";
+  noBtn.style.left = "0px";
+  noBtn.style.top = "0px";
+}
+
+// EVIL NO BUTTON LOGIC 😈
+noBtn.addEventListener("mouseenter", () => {
+
+  noAttempts++;
+
+  // Show funny message
+  funMessage.textContent =
+    funnyNoMessages[Math.floor(Math.random() * funnyNoMessages.length)];
+
+  // After 3 attempts, disappear
+  if (noAttempts >= 3) {
+    noBtn.style.display = "none";
+
+    setTimeout(() => {
+      noBtn.style.display = "inline-block";
+
+      // Reappear near YES button
+      const yesRect = yesBtn.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = (yesRect.left - cardRect.left + 80) + "px";
+      noBtn.style.top = (yesRect.top - cardRect.top) + "px";
+
+      funMessage.textContent = "Still trying? Just press YES already 😌💘";
+      noAttempts = 0;
+    }, 800);
+
+  } else {
+    // Move inside card randomly
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const padding = 20;
+
+    const maxX = card.clientWidth - btnWidth - padding;
+    const maxY = card.clientHeight - btnHeight - padding;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+  }
+});
+
+// YES button
+yesBtn.onclick = () => {
+  currentQ++;
+  if(currentQ < questions.length){
+    loadQuestion();
+  } else {
+    questionEl.style.display="none";
+    yesBtn.style.display="none";
+    noBtn.style.display="none";
+    funMessage.style.display="none";
+    successMessage.style.display="block";
+    gifContainer.style.display="block";
+  }
+};
+
+// Go to breaking page
+viewCertBtn.onclick = () => {
+  window.location.href = "breaking.html";
+};
+</script>
+/*<script>
 const introCard = document.getElementById("intro-card");
 const quizCard = document.getElementById("quiz-card");
 const startBtn = document.getElementById("start-btn");
@@ -158,7 +275,7 @@ yesBtn.onclick = () => {
 viewCertBtn.onclick = () => {
   window.location.href = "breaking.html";
 };
-</script>
+</script>*/
 
 </body>
 </html>
