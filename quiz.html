@@ -1,173 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Valentine Quiz</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funny Valentine Quiz 💘</title>
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #ffe6f0, #fff5f8);
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
-  .card {
-    background: white;
-    padding: 40px 60px;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(255, 105, 135, 0.2);
-    width: 400px;
-    text-align: center;
-    position: relative;
-  }
-  h2 {
-    color: #d6336c;
-    margin-bottom: 30px;
-  }
-  #question-text {
-    font-size: 20px;
-    margin-bottom: 40px;
-  }
-  button {
-    padding: 12px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    user-select: none;
-  }
-  #yes-btn {
-    background-color: #ff4d6d;
-    color: white;
-    margin-right: 20px;
-  }
-  #yes-btn:hover {
-    background-color: #e0315b;
-  }
-  #no-btn {
-    background-color: #adb5bd;
-    color: white;
-    position: absolute;
-    top: 170px;
-    left: 220px;
-  }
-  #funny-msg {
-    color: #d6336c;
-    font-weight: bold;
-    margin-top: 20px;
-    min-height: 24px;
-    font-size: 16px;
-  }
-  #ok-btn {
-    background-color: #ff4d6d;
-    color: white;
-    margin-top: 40px;
-    padding: 14px 40px;
-    font-size: 18px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    display: none;
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffe6f0, #fff5f8);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+}
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(255, 105, 135, 0.2);
+  width: 90%;
+  max-width: 500px;
+  z-index: 10;
+}
+h2 { color: #d6336c; margin-bottom: 20px; }
+button {
+  padding: 12px 25px;
+  margin: 15px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+#start-btn { background-color: #ff69a5; color: white; }
+#yes-btn { background-color: #ff4d6d; color: white; }
+#no-btn { background-color: #adb5bd; color: white; position: absolute; }
+#fun-message { margin-top: 15px; color: #ff4d6d; font-weight: bold; min-height:24px; }
+#success-message { display:none; margin-top:20px; font-size:20px; font-weight:bold; color:#ff4d6d; }
+
+#view-cert-btn {
+  background-color: #ff4d6d;
+  color: white;
+}
+
+.heart {
+  position:absolute;
+  color:#ff4d6d;
+  font-size:20px;
+  animation: float 1.5s linear forwards;
+}
+@keyframes float {
+  0%{transform:translateY(0) scale(1); opacity:1;}
+  100%{transform:translateY(-150px) scale(1.5); opacity:0;}
+}
 </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Hey Boo 💖<br>Answer honestly</h2>
-    <div id="question-text">Loading question...</div>
-    <button id="yes-btn">Yes 💘</button>
-    <button id="no-btn">No 😅</button>
-    <div id="funny-msg"></div>
-    <button id="ok-btn">Ok, I Accept You 💘</button>
+
+<div class="card" id="intro-card">
+  <h2>Hey Boo! 💖<br>Before you become my Valentine...</h2>
+  <p>Survive these hilarious tests 😏</p>
+  <button id="start-btn">Start Quiz 😎</button>
+</div>
+
+<div class="card" id="quiz-card" style="display:none;">
+  <h2 id="question"></h2>
+  <button id="yes-btn">Yes 💘</button>
+  <button id="no-btn">No 😅</button>
+  <div id="fun-message"></div>
+
+  <div id="success-message">
+    Yayyy Darshan said YES!!! 💖🥰
+    <br>
+    <button id="view-cert-btn">Click Here for Final Verdict ⚖️</button>
   </div>
+</div>
 
 <script>
-  const questions = [
-    "🍟 Will you share not only your fries but along with fried chicken?",
-    "🌟 Will you hype me up like I'm the main character?",
-    "📱 Will you reply fast instead of 'seen 2 hours ago'?",
-    "😜 Are you ready for random mood swings and still stay?",
-    "😂 Will you laugh at my silly jokes forever?",
-    "😝 Will you react to all the reels sent by me?"
-  ];
+const introCard = document.getElementById("intro-card");
+const quizCard = document.getElementById("quiz-card");
+const startBtn = document.getElementById("start-btn");
+const questionEl = document.getElementById("question");
+const yesBtn = document.getElementById("yes-btn");
+const noBtn = document.getElementById("no-btn");
+const funMessage = document.getElementById("fun-message");
+const successMessage = document.getElementById("success-message");
+const viewCertBtn = document.getElementById("view-cert-btn");
 
-  const funnyNoMessages = [
-    "Oops! NO is not allowed! 😅",
-    "Come on, answer is YES 💘",
-    "Ha! NO disappears 😏",
-    "NO? Are you kidding? 😝",
-    "Think fast! YES only 😉",
-    "Of course! It's YES 😜"
-  ];
+const questions = [
+  "🍟 Will you share not only your fries but along with fried chicken?",
+  "🌟 Will you hype me up like I'm the main character?",
+  "📱 Will you reply fast instead of 'seen 2 hours ago'?",
+  "😜 Are you ready for random mood swings and still stay?",
+  "😂 Will you laugh at my silly jokes forever?",
+  "😝 Will you react to all the reels sent by me?"
+];
 
-  const questionText = document.getElementById("question-text");
-  const yesBtn = document.getElementById("yes-btn");
-  const noBtn = document.getElementById("no-btn");
-  const funnyMsg = document.getElementById("funny-msg");
-  const okBtn = document.getElementById("ok-btn");
+let currentQ = 0;
 
-  let currentQuestionIndex = 0;
+const funnyNoMessages = [
+  "Oops! NO is not allowed! 😅",
+  "Come on, answer is YES 💘",
+  "Ha! NO disappears 😏",
+  "NO? Are you kidding? 😝",
+  "Think fast! YES only 😉",
+  "Ofcourse! it's YES 😜"
+];
 
-  function showQuestion(index) {
-    questionText.textContent = questions[index];
-    funnyMsg.textContent = "";
-    noBtn.style.display = "inline-block";
-    noBtn.style.opacity = "1";
+startBtn.onclick = () => {
+  introCard.style.display = "none";
+  quizCard.style.display = "block";
+  loadQuestion();
+};
 
-    // Reset noBtn position
-    noBtn.style.top = "170px";
-    noBtn.style.left = "220px";
+function loadQuestion() {
+  questionEl.textContent = questions[currentQ];
+  funMessage.textContent = "";
+}
+
+noBtn.onmouseenter = () => {
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random()*300 + "px";
+  noBtn.style.top = Math.random()*200 + "px";
+  funMessage.textContent = funnyNoMessages[Math.floor(Math.random()*funnyNoMessages.length)];
+};
+
+yesBtn.onclick = () => {
+  currentQ++;
+  if(currentQ < questions.length){
+    loadQuestion();
+  } else {
+    questionEl.style.display="none";
+    yesBtn.style.display="none";
+    noBtn.style.display="none";
+    funMessage.style.display="none";
+    successMessage.style.display="block";
   }
+};
 
-  yesBtn.addEventListener("click", () => {
-    currentQuestionIndex++;
-    funnyMsg.textContent = "";
-
-    if (currentQuestionIndex >= questions.length) {
-      // Show acceptance button
-      questionText.style.display = "none";
-      yesBtn.style.display = "none";
-      noBtn.style.display = "none";
-      funnyMsg.style.display = "none";
-      okBtn.style.display = "inline-block";
-    } else {
-      showQuestion(currentQuestionIndex);
-    }
-  });
-
-  noBtn.addEventListener("mouseenter", () => {
-    // Move the No button randomly within the card
-    const card = document.querySelector(".card");
-    const maxX = card.clientWidth - noBtn.offsetWidth;
-    const maxY = card.clientHeight - noBtn.offsetHeight;
-
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
-  });
-
-  noBtn.addEventListener("click", () => {
-    funnyMsg.textContent = funnyNoMessages[currentQuestionIndex];
-    // Fade out and hide No button on click
-    noBtn.style.transition = "opacity 0.5s ease";
-    noBtn.style.opacity = "0";
-    setTimeout(() => {
-      noBtn.style.display = "none";
-    }, 500);
-  });
-
-  okBtn.addEventListener("click", () => {
-    window.location.href = "final.html";  // Change to your final page url
-  });
-
-  // Initialize first question
-  showQuestion(currentQuestionIndex);
+viewCertBtn.onclick = () => {
+  window.location.href = "breaking.html";
+};
 </script>
+
 </body>
 </html>
