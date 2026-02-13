@@ -14,7 +14,6 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  position: relative;
 }
 .card {
   background: white;
@@ -24,37 +23,45 @@ body {
   box-shadow: 0 15px 40px rgba(255, 105, 135, 0.2);
   width: 90%;
   max-width: 500px;
-  z-index: 10;
 }
-h2 { color: #d6336c; margin-bottom: 20px; }
+h2 { color: #d6336c; }
+
 button {
   padding: 12px 25px;
-  margin: 15px;
+  margin: 10px;
   font-size: 18px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
 }
-#start-btn { background-color: #ff69a5; color: white; }
-#yes-btn { background-color: #ff4d6d; color: white; }
-#no-btn { background-color: #adb5bd; color: white; position: absolute; }
-#fun-message { margin-top: 15px; color: #ff4d6d; font-weight: bold; min-height:24px; }
-#success-message { display:none; margin-top:20px; font-size:20px; font-weight:bold; color:#ff4d6d; }
+
+#start-btn { background: #ff69a5; color: white; }
+#yes-btn { background: #ff4d6d; color: white; }
+#no-btn { background: #adb5bd; color: white; position: absolute; }
+
+#fun-message {
+  margin-top: 15px;
+  color: #ff4d6d;
+  font-weight: bold;
+  min-height: 24px;
+}
+
+#success-message {
+  display: none;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff4d6d;
+}
+
+#gif-container {
+  display: none;
+  margin-top: 15px;
+}
 
 #view-cert-btn {
-  background-color: #ff4d6d;
+  background-color: #ff0000;
   color: white;
-}
-
-.heart {
-  position:absolute;
-  color:#ff4d6d;
-  font-size:20px;
-  animation: float 1.5s linear forwards;
-}
-@keyframes float {
-  0%{transform:translateY(0) scale(1); opacity:1;}
-  100%{transform:translateY(-150px) scale(1.5); opacity:0;}
 }
 </style>
 </head>
@@ -74,8 +81,12 @@ button {
 
   <div id="success-message">
     Yayyy Darshan said YES!!! 💖🥰
-    <br>
+    <br><br>
     <button id="view-cert-btn">Click Here for Final Verdict ⚖️</button>
+  </div>
+
+  <div id="gif-container">
+    <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" width="250">
   </div>
 </div>
 
@@ -88,6 +99,7 @@ const yesBtn = document.getElementById("yes-btn");
 const noBtn = document.getElementById("no-btn");
 const funMessage = document.getElementById("fun-message");
 const successMessage = document.getElementById("success-message");
+const gifContainer = document.getElementById("gif-container");
 const viewCertBtn = document.getElementById("view-cert-btn");
 
 const questions = [
@@ -125,7 +137,8 @@ noBtn.onmouseenter = () => {
   noBtn.style.position = "absolute";
   noBtn.style.left = Math.random()*300 + "px";
   noBtn.style.top = Math.random()*200 + "px";
-  funMessage.textContent = funnyNoMessages[Math.floor(Math.random()*funnyNoMessages.length)];
+  funMessage.textContent =
+    funnyNoMessages[Math.floor(Math.random()*funnyNoMessages.length)];
 };
 
 yesBtn.onclick = () => {
@@ -138,6 +151,7 @@ yesBtn.onclick = () => {
     noBtn.style.display="none";
     funMessage.style.display="none";
     successMessage.style.display="block";
+    gifContainer.style.display="block";
   }
 };
 
