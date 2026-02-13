@@ -104,6 +104,32 @@
 </style>
 </head>
 <body>
+  <!-- 🎵 Romantic Background Music -->
+<audio id="bg-music" loop>
+  <source src="our-song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+window.addEventListener("load", function() {
+  const music = document.getElementById("bg-music");
+
+  // Set soft romantic volume
+  music.volume = 0.4;
+
+  // Try autoplay
+  const playPromise = music.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      // If autoplay blocked, play on first user interaction
+      document.body.addEventListener("click", function () {
+        music.play();
+      }, { once: true });
+    });
+  }
+});
+</script>
+
 
 <div class="card">
   <h2>🎉 You are my lifetime Valentine 🎉</h2>
