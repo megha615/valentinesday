@@ -1,134 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Darshan Accepted!</title>
+<meta charset="UTF-8" />
+<title>Your Lifetime Valentine Certificate 💖</title>
 <style>
-body {
-  margin:0;
-  font-family: Arial, sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  background: linear-gradient(135deg,#ffe6f0,#fff5f8);
-  flex-direction:column;
-}
-.card {
-  background:white;
-  padding:30px 20px;
-  border-radius:20px;
-  text-align:center;
-  box-shadow:0 15px 40px rgba(255,105,135,0.2);
-  max-width:500px;
-  width:100%;
-  position: relative;
-}
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe6f0, #fff5f8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+  .card {
+    background: #fff0f8;
+    border: 4px dashed #ff4d6d;
+    border-radius: 25px;
+    padding: 30px 40px;
+    text-align: center;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(255, 0, 105, 0.2);
+    position: relative;
+    z-index: 10;
+  }
+  h2 {
+    color: #d6336c;
+    margin-bottom: 15px;
+    font-size: 28px;
+  }
+  p {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  #certificate-img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    max-height: 300px;
+    border-radius: 15px;
+    border: 3px solid #ff4d6d;
+    margin-top: 10px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    background: #ff4d6d;
+    color: white;
+    margin-top: 15px;
+  }
+  button:hover {
+    background: #e0315b;
+  }
 
-/* Breaking news banner */
-.breaking-news {
-  background:red;
-  color:white;
-  font-weight:bold;
-  padding:10px;
-  font-size:18px;
-  margin-bottom:15px;
-  border-radius:10px;
-  overflow:hidden;
-  white-space:nowrap;
-  box-sizing: border-box;
-  animation: marquee 8s linear infinite;
-}
+  /* Floating hearts */
+  .heart {
+    position: absolute;
+    color: #ff4d6d;
+    font-size: 20px;
+    animation: float 2.5s linear forwards;
+    user-select: none;
+    pointer-events: none;
+  }
+  @keyframes float {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-200px) scale(1.5);
+      opacity: 0;
+    }
+  }
 
-/* Scroll text effect */
-@keyframes marquee {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
-h2 {
-  color:#d6336c;
-  margin-bottom:15px;
-}
-
-#view-cert-btn {
-  background:#ff2d55;
-  color:white;
-  padding:14px 30px;
-  border:none;
-  border-radius:25px;
-  font-size:18px;
-  cursor:pointer;
-  width:100%;
-  margin-top:10px;
-}
-#view-cert-btn:hover { background:#e0315b; }
-
-#certificate-container {
-  margin-top:20px;
-  display:none;
-  flex-direction:column;
-  align-items:center;
-}
-#certificate-container img {
-  width:100%;
-  border-radius:15px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
-}
-#download-btn {
-  background:#ff4d6d;
-  color:white;
-  padding:14px 30px;
-  border:none;
-  border-radius:25px;
-  font-size:18px;
-  cursor:pointer;
-  margin-top:15px;
-  width:100%;
-  display:none;
-}
-#download-btn:hover { background:#e0315b; }
+  /* Confetti */
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: fall 3s linear forwards;
+  }
+  @keyframes fall {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(400px) rotate(360deg);
+      opacity: 0;
+    }
+  }
 </style>
 </head>
 <body>
+
 <div class="card">
-
-  <!-- Breaking news banner text -->
-  <div class="breaking-news">BREAKING NEWS: Darshan Accepted! 💖🥰</div>
-
-  <h2>Yayyy Darshan said YES!!! 💖🥰</h2>
-
-  <button id="view-cert-btn">Click Here to View Your Certificate 📜</button>
-
-  <div id="certificate-container">
-    <img id="certificate-img" src="couple.jpeg" alt="Valentine Certificate">
-    <button id="download-btn">Download Certificate 💌</button>
-  </div>
+  <h2>🎉 You are my lifetime Valentine 🎉</h2>
+  <p>Date: <span id="date"></span></p>
+  <img id="certificate-img" src="couple.jpeg" alt="Valentine Certificate" />
+  <br />
+  <button id="download-btn">Download Certificate 💌</button>
 </div>
 
 <script>
-const viewBtn = document.getElementById("view-cert-btn");
-const certContainer = document.getElementById("certificate-container");
+// Show current date
+document.getElementById("date").textContent = new Date().toLocaleDateString();
+
+// Floating hearts function
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  heart.style.top = window.innerHeight + 20 + "px"; // start just below viewport
+  heart.textContent = "💖";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 2500);
+}
+
+// Launch multiple floating hearts repeatedly
+setInterval(createHeart, 400);
+
+// Confetti animation on page load
+function launchConfetti(count) {
+  for (let i = 0; i < count; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 3000);
+  }
+}
+launchConfetti(50);
+
+// Download certificate button functionality
 const downloadBtn = document.getElementById("download-btn");
 const certImg = document.getElementById("certificate-img");
 
-viewBtn.addEventListener("click", ()=>{
-  certContainer.style.display = "flex";
-  downloadBtn.style.display = "block";
-  certContainer.scrollIntoView({ behavior:"smooth" });
-});
-
-downloadBtn.addEventListener("click", ()=>{
+downloadBtn.addEventListener("click", () => {
+  launchConfetti(30);
   const link = document.createElement("a");
   link.href = certImg.src;
-  const today = new Date();
-  const dateStr = today.toISOString().split('T')[0];
-  link.download = `Your_Forever_Valentine_${dateStr}.jpeg`;
+  link.download = "My_Lifetime_Valentine_Certificate.jpg";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 });
 </script>
+
 </body>
 </html>
