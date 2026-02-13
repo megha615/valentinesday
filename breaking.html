@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BREAKING NEWS 🚨</title>
+
 <style>
 body {
   margin: 0;
@@ -11,12 +12,14 @@ body {
   background: black;
   color: white;
   text-align: center;
+  overflow-x: hidden;
 }
 
+/* Top flashing breaking bar */
 .top-bar {
   background: red;
   padding: 15px;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   animation: blink 1s infinite alternate;
 }
@@ -26,30 +29,45 @@ body {
   to { opacity: 0.6; }
 }
 
-.main {
+/* Main content */
+.container {
   padding: 40px 20px;
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 38px;
   color: yellow;
+  margin-bottom: 20px;
 }
 
-.sub {
-  font-size: 22px;
-  margin-top: 20px;
-}
-
-.verdict {
+.section {
   margin-top: 30px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Highlight boxes */
+.highlight {
+  background: #111;
+  border: 2px solid red;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+/* Verdict */
+.verdict {
   font-size: 28px;
   color: #ff4d6d;
   font-weight: bold;
+  margin-top: 30px;
 }
 
+/* Button */
 button {
   margin-top: 40px;
-  padding: 15px 35px;
+  padding: 15px 40px;
   font-size: 20px;
   border: none;
   border-radius: 30px;
@@ -61,28 +79,85 @@ button {
 button:hover {
   background: darkred;
 }
+
+/* Bottom ticker */
+.ticker {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: red;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ticker-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll 12s linear infinite;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
 </style>
 </head>
 <body>
 
 <div class="top-bar">🚨 BREAKING NEWS 🚨</div>
 
-<div class="main">
-  <h1>Darshan Has Officially Accepted!</h1>
+<div class="container">
 
-  <div class="sub">
+  <h1>Darshan Has Officially Said YES 💖</h1>
+
+  <div class="highlight">
     After intense questioning... <br>
     After multiple YES confirmations... <br>
-    The final decision has been made 💖
+    The Final Verdict is IN! ⚖️
+  </div>
+
+  <div class="section">
+    💘 <strong>Relationship Phases Activated:</strong><br>
+    Phase 1: Cute Talks & Late Night Chats 🌙<br>
+    Phase 2: Random Fights + Immediate Patchups 😜<br>
+    Phase 3: Unlimited Teasing & Meme Wars 😂<br>
+    Phase 4: Forever & Always Mode 💍
+  </div>
+
+  <div class="highlight">
+    👗 <strong>Official Dress Code:</strong><br>
+    Matching vibes always ✨<br>
+    Hoodie stealing allowed 🧥<br>
+    Oversized t-shirts approved 😌<br>
+    Pajama dates mandatory 🛋️
+  </div>
+
+  <div class="section">
+    📜 <strong>Terms & Conditions:</strong><br>
+    Must reply fast 📱<br>
+    Must hype girlfriend daily 🌟<br>
+    Must tolerate mood swings 😌<br>
+    Must provide unlimited love 💕
   </div>
 
   <div class="verdict">
-    Megha is now his Lifetime Valentine 💘
+    Megha is now officially<br>
+    HIS LIFETIME VALENTINE 💘
   </div>
 
   <button onclick="window.location.href='final.html'">
     Accept Your Destiny 😎
   </button>
+
+</div>
+
+<div class="ticker">
+  <div class="ticker-text">
+    🚨 Exclusive: Darshan officially taken! 💖 | Lifetime Valentine Confirmed 💍 | Love Stocks Rising 📈 | Forever Mode Activated 💘 🚨
+  </div>
 </div>
 
 </body>
